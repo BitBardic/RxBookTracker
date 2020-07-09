@@ -1,25 +1,17 @@
-import { of, Observable } from 'rxjs';
+import { fromEvent, from, of, Observable, concat } from 'rxjs';
+import { ajax } from 'rxjs/ajax';
+import { allBooks, allReaders } from './data';
 
-// Observables vs. Observers vs. Subscribers
-let myNumbers = [1, 3, 5];
+let books$ = from(allBooks);
 
-let numberObservable$ = new Observable(subscriber => {
-    
-    if (myNumbers.length === 0) { subscriber.error('No values'); }
-
-    for (let num of myNumbers) {
-        subscriber.next(num);
-    }
-
-    subscriber.complete();
-});
-
-let myObserver = {
-    next: value => console.log(`Value produced: ${value}`),
+let bookObserver = {
+    next: book => console.log(`Title: ${book.title}`),
     error: err => console.log(`Error: ${err}`),
     complete: () => console.log(`All done!`)
 };
 
-numberObservable$.subscribe(myObserver);
+books$.subscribe(bookObserver);
+
+
 
 
