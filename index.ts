@@ -1,28 +1,39 @@
-import { fromEvent, from, of, Observable, concat } from 'rxjs';
-import { ajax } from 'rxjs/ajax';
-import { allBooks, allReaders } from './data';
+import { fromEvent, interval, Observable } from 'rxjs';
 
-let currentTime$ = new Observable(subscriber => {
-    const timeString = new Date().toLocaleTimeString();
-    subscriber.next(timeString);
-    subscriber.complete();
-});
 
-currentTime$.subscribe(
-    currentTime => console.log(`Observer 1: ${currentTime}`)
+let timesDiv = document.getElementById('times');
+let button = document.getElementById('timerButton');
+
+// let timer$ = interval(1000);
+
+let timer$ = new Observable(subscribe => {
+    let i = 0;
+    let intervalID = setInterval(() => {
+        subscribe.next(i++);
+    }, 1000);
+
+    return () => {
+        console.log(`Executing teardown code.`);
+        clearInterval(intervalID);
+    }
+})
+
+let timerSubscription = timer$.subscribe(
+    value => timesDiv.innerHTML += `${new Date().toLocaleTimeString()} (${value}) <br>`,
+    null,
+    () => console.log('All done!')
 );
 
-setTimeout(() => {
-    currentTime$.subscribe(
-        currentTime => console.log(`Observer 2: ${currentTime}`)
-    );
-}, 1000);
+let timerConsoleSubscription = timer$.subscribe(
+    value => console.log(`${new Date().toLocaleTimeString()} (${value})`)
+);
 
-setTimeout(() => {
-    currentTime$.subscribe(
-        currentTime => console.log(`Observer 3: ${currentTime}`)
+timerSubscription.add(timerConsoleSubscription);
+
+fromEvent(button, 'click')
+    .subscribe(
+        event => timerSubscription.unsubscribe()
     );
-}, 2000);
 
 
 
