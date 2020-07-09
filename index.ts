@@ -2,9 +2,14 @@ alert('Hello RxJs');
 import { Observable, of, from, fromEvent, concat } from 'rxjs';
 import { allBooks, allReaders } from './data';
 
-let source1$ = of('hello', 10, true, allReaders[0].name);
+let button = document.getElementById('readersButton');
 
-let source2$ = from(allBooks);
+let readersDiv = document.getElementById('readers');
 
-concat(source1$, source2$)
-    .subscribe(value => console.log(value));
+fromEvent(button, 'click').subscribe((event) => {
+  console.log(event);
+
+  for (let reader of allReaders) {
+    readersDiv.innerHTML += reader.name + '<br>';
+  }
+});
