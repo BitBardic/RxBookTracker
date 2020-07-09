@@ -1,5 +1,5 @@
-alert('Hello RxJs');
 import { Observable, of, from, fromEvent, concat } from 'rxjs';
+import { ajax } from 'rxjs/ajax';
 import { allBooks, allReaders } from './data';
 
 let button = document.getElementById('readersButton');
@@ -7,9 +7,14 @@ let button = document.getElementById('readersButton');
 let readersDiv = document.getElementById('readers');
 
 fromEvent(button, 'click').subscribe((event) => {
-  console.log(event);
+  ajax('/api/readers').subscribe((ajaxResponse) => {
+    console.log(ajaxResponse);
+    let readers = ajaxResponse.response;
 
-  for (let reader of allReaders) {
-    readersDiv.innerHTML += reader.name + '<br>';
-  }
+    let readerDiv = document.getElementById('readers');
+
+    for (let reader of readers) {
+      readerDiv.innerHTML += reader.name + '<br>';
+    }
+  });
 });
