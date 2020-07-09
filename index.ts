@@ -1,20 +1,12 @@
-import { Observable, of, from, fromEvent, concat } from 'rxjs';
-import { ajax } from 'rxjs/ajax';
-import { allBooks, allReaders } from './data';
+import { of } from 'rxjs';
 
-let button = document.getElementById('readersButton');
+// subscribing with an Observer
 
-let readersDiv = document.getElementById('readers');
+let myObserver = {
+  next: (value) => console.log(`Value produced: ${value}`),
+  error: (err) => console.log(`Error: ${err}`),
+  complete: () => console.log(`All done producing values.`),
+};
 
-fromEvent(button, 'click').subscribe((event) => {
-  ajax('/api/readers').subscribe((ajaxResponse) => {
-    console.log(ajaxResponse);
-    let readers = ajaxResponse.response;
-
-    let readerDiv = document.getElementById('readers');
-
-    for (let reader of readers) {
-      readerDiv.innerHTML += reader.name + '<br>';
-    }
-  });
-});
+let sourceObservable$ = of(1, 3, 5);
+sourceObservable$.subscribe(myObserver);
