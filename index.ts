@@ -2,15 +2,27 @@ import { fromEvent, from, of, Observable, concat } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { allBooks, allReaders } from './data';
 
-let books$ = from(allBooks);
+let currentTime$ = new Observable(subscriber => {
+    const timeString = new Date().toLocaleTimeString();
+    subscriber.next(timeString);
+    subscriber.complete();
+});
 
-let bookObserver = {
-    next: book => console.log(`Title: ${book.title}`),
-    error: err => console.log(`Error: ${err}`),
-    complete: () => console.log(`All done!`)
-};
+currentTime$.subscribe(
+    currentTime => console.log(`Observer 1: ${currentTime}`)
+);
 
-books$.subscribe(bookObserver);
+setTimeout(() => {
+    currentTime$.subscribe(
+        currentTime => console.log(`Observer 2: ${currentTime}`)
+    );
+}, 1000);
+
+setTimeout(() => {
+    currentTime$.subscribe(
+        currentTime => console.log(`Observer 3: ${currentTime}`)
+    );
+}, 2000);
 
 
 
