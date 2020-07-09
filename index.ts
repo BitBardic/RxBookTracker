@@ -1,20 +1,25 @@
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
-// subscribing with callbacks
+// Observables vs. Observers vs. Subscribers
+let myNumbers = [1, 3, 5];
 
-let sourceObservable$ = of(1, 3, 5);
+let numberObservable$ = new Observable(subscriber => {
+    
+    if (myNumbers.length === 0) { subscriber.error('No values'); }
 
-sourceObservable$.subscribe(
-    value => console.log(`Value produced: ${value}`),
-    err => console.log(`Error: ${err}`),
-    () => console.log(`All done producing values.`)
-);
+    for (let num of myNumbers) {
+        subscriber.next(num);
+    }
 
-sourceObservable$.subscribe(
-    value => console.log(`Value produced: ${value}`),
-    err => console.log(`Error: ${err}`),
-);
+    subscriber.complete();
+});
 
-sourceObservable$.subscribe(
-    value => console.log(`Value produced: ${value}`)
-);
+let myObserver = {
+    next: value => console.log(`Value produced: ${value}`),
+    error: err => console.log(`Error: ${err}`),
+    complete: () => console.log(`All done!`)
+};
+
+numberObservable$.subscribe(myObserver);
+
+
