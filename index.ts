@@ -1,39 +1,18 @@
-import { fromEvent, interval, Observable } from 'rxjs';
+import { fromEvent, interval, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+// manually applying an operator
+let source$ = of(1, 2, 3, 4, 5);
 
-let timesDiv = document.getElementById('times');
-let button = document.getElementById('timerButton');
+let doubler = map<number, number>(value => value * 2);
 
-// let timer$ = interval(1000);
+let doubled$ = doubler(source$);
 
-let timer$ = new Observable(subscribe => {
-    let i = 0;
-    let intervalID = setInterval(() => {
-        subscribe.next(i++);
-    }, 1000);
-
-    return () => {
-        console.log(`Executing teardown code.`);
-        clearInterval(intervalID);
-    }
-})
-
-let timerSubscription = timer$.subscribe(
-    value => timesDiv.innerHTML += `${new Date().toLocaleTimeString()} (${value}) <br>`,
-    null,
-    () => console.log('All done!')
+doubled$.subscribe(
+    value => console.log(value)
 );
 
-let timerConsoleSubscription = timer$.subscribe(
-    value => console.log(`${new Date().toLocaleTimeString()} (${value})`)
-);
 
-timerSubscription.add(timerConsoleSubscription);
-
-fromEvent(button, 'click')
-    .subscribe(
-        event => timerSubscription.unsubscribe()
-    );
 
 
 
