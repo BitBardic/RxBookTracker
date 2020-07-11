@@ -3,7 +3,7 @@ import { ajax } from 'rxjs/ajax';
 import { mergeMap, filter, tap, catchError } from 'rxjs/operators';
 
 
-ajax('/api/books')
+ajax('/api/errors/500')
     .pipe(
         mergeMap(ajaxResponse => ajaxResponse.response),
         filter(book => book.publicationYear < 1950),
