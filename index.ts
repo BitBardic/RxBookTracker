@@ -1,15 +1,15 @@
 import { fromEvent, interval, Observable, of } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { ajax } from 'rxjs/ajax';
+import { mergeMap, filter, tap } from 'rxjs/operators';
 
 
-// chaining operators
-let source$ = of(1, 2, 3, 4, 5);
-
-source$.pipe(
-    map(value => value * 2),
-    filter(mappedValue => mappedValue > 5)
-)
-.subscribe(
-    finalValue => console.log(finalValue)
-);
+ajax('/api/books')
+    .pipe(
+        mergeMap(ajaxResponse => ajaxResponse.response),
+        filter(book => book.publicationYear < 1950),
+        tap(oldBook => console.log(`Title: ${oldBook.title}`))
+    )
+    .subscribe(
+        finalValue => console.log(finalValue)
+    );
 

@@ -14,5 +14,13 @@ RxJS is a library for building asynchronous applications with observable sequenc
         1.  complete:
 1.  Subscriptions
 1.  Operators
+    - Categories of Operators
+        1. Transformation
+        1. Filtering
+        1. Combination
+        1. Utility
+        1. Conditional
+        1. Aggregate
+        1. Muticasting
 1.  Subjects
 1.  Schedulers
