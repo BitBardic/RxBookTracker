@@ -1,19 +1,15 @@
 import { fromEvent, interval, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 
-// manually applying an operator
+
+// chaining operators
 let source$ = of(1, 2, 3, 4, 5);
 
-let doubler = map<number, number>(value => value * 2);
-
-let doubled$ = doubler(source$);
-
-doubled$.subscribe(
-    value => console.log(value)
+source$.pipe(
+    map(value => value * 2),
+    filter(mappedValue => mappedValue > 5)
+)
+.subscribe(
+    finalValue => console.log(finalValue)
 );
-
-
-
-
-
 
