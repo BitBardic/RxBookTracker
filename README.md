@@ -23,4 +23,13 @@ RxJS is a library for building asynchronous applications with observable sequenc
         1. Aggregate
         1. Muticasting
 1.  Subjects
+    - What are subjects?
+        1. Observables
+        1. Observers
+        1. Produce values
+        1. Proxy values
+        1. Have state and maintain a list of observers
+        1. Muticast instead of unicast
+
+    <img src="img/subject.JPG" width="500" >
 1.  Schedulers

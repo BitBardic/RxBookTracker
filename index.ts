@@ -1,48 +1,21 @@
-import { fromEvent, interval, Observable, of, throwError } from 'rxjs';
+import { fromEvent, interval, Observable, of, throwError, Subject } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { mergeMap, filter, tap, catchError, take, takeUntil, flatMap } from 'rxjs/operators';
 
-function grabAndLogClassics(year, log) {
-    return source$ => {
-        return new Observable(subscriber => {
-            return source$.subscribe(
-                book => {
-                    if (book.publicationYear < year) {
-                        subscriber.next(book);
-                        if (log) {
-                            console.log(`Classic: ${book.title}`);
-                        }
-                    }
-                },
-                err => subscriber.error(err),
-                () => subscriber.complete()
-            );
-        });
-    }
-}
+let subject$ = new Subject();
 
-function grabClassics(year) {
-   return filter(book => book.publicationYear < year);
-}
+subject$.subscribe(
+    value => console.log(`Observer 1: ${value}`)
+);
 
-function grabAndLogClassicsWithPipe(year, log) {
-    return source$ => source$.pipe(
-        filter(book => book.publicationYear < year),
-        tap(classicBook => log ? console.log(`Title: ${classicBook.title}`) : null)
-    );
-}
+subject$.subscribe(
+    value => console.log(`Observer 2: ${value}`)
+);
 
-ajax('/api/books')
-    .pipe(
-        flatMap(ajaxResponse => ajaxResponse.response),
-        // filter(book => book.publicationYear < 1950),
-        // tap(oldBook => console.log(`Title: ${oldBook}`))
-        // grabAndLogClassics(1930, false)
-        // grabClassics(1950)
-        grabAndLogClassicsWithPipe(1930, true)
-    )
-    .subscribe(
-        finalValue => console.log(`VALUE: ${finalValue.title}`),
-        error => console.log(`ERROR: ${error}`)
-    );
+subject$.next("Hello!");
 
+let source$ = new Observable(subscriber => {
+    subscriber.next('Greetings!');
+});
+
+source$.subscribe(subject$);
