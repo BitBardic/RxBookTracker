@@ -32,4 +32,5 @@ RxJS is a library for building asynchronous applications with observable sequenc
         1. Muticast instead of unicast
 
     <img src="img/subject.JPG" width="500" >
+    <img src="img/hot-cold-Observables.JPG" width="500" >
 1.  Schedulers
