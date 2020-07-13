@@ -1,14 +1,17 @@
 import { fromEvent, interval, Observable, of, throwError, Subject } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { mergeMap, filter, tap, catchError, take, takeUntil, flatMap,
-         multicast, refCount, publish, share } from 'rxjs/operators';
+         multicast, refCount, publish, share, publishLast, publishBehavior, publishReplay } from 'rxjs/operators';
 
 let source$ = interval(1000).pipe(
     take(4),
     //multicast(new Subject()),
-    // publish(),
-    // refCount()
-    share()
+    //publish(),
+    // publishLast(),
+    // publishBehavior(42),
+    publishReplay(),
+    refCount()
+    // share()
 );
 
 // let subject$ = new Subject();
