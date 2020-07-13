@@ -6,8 +6,9 @@ import { mergeMap, filter, tap, catchError, take, takeUntil, flatMap,
 let source$ = interval(1000).pipe(
     take(4),
     //multicast(new Subject()),
-    publish(),
-    refCount()
+    // publish(),
+    // refCount()
+    share()
 );
 
 // let subject$ = new Subject();
