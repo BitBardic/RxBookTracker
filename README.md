@@ -33,4 +33,16 @@ RxJS is a library for building asynchronous applications with observable sequenc
 
     <img src="img/subject.JPG" width="500" >
     <img src="img/hot-cold-Observables.JPG" width="500" >
+
+    - Specialized Subjects
+        1. AsyncSubject
+            - Only emits the last value received
+            - Used by the publishLast() operator
+        1. BehaviorSubject
+            - Emits initial seed value if source has not yet produced a value
+            - Emits most recent value otherwise
+            - Used by publishBehavior() operator
+        1. ReplaySubject
+            - Stores and emits multiple values to all observers
+            - used by publishReplay() operator
 1.  Schedulers
