@@ -5,7 +5,8 @@ import { mergeMap, filter, tap, catchError, take, takeUntil, flatMap,
 
 let source$ = interval(1000).pipe(
     take(4),
-    multicast(new Subject())
+    multicast(new Subject()),
+    refCount()
 );
 
 // let subject$ = new Subject();
@@ -27,4 +28,4 @@ setTimeout(() => {
     );
 }, 2000);
 
-source$.connect();
+// source$.connect();
