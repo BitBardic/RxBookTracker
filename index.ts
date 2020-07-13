@@ -28,4 +28,12 @@ setTimeout(() => {
     );
 }, 2000);
 
+setTimeout(() => {
+    source$.subscribe(
+        value => console.log(`Observer 4: ${value}`)
+        null,
+        () => console.log('Observer 4 complete.')
+    );
+}, 4500);
+
 // source$.connect();
