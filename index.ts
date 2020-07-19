@@ -4,13 +4,20 @@ import { ajax } from 'rxjs/ajax';
 import { mergeMap, filter, tap, catchError, take, takeUntil, flatMap,
          multicast, refCount, publish, share, publishLast, publishBehavior, publishReplay, observeOn } from 'rxjs/operators';
 
-console.log('Start Script.');
+// Describing Observable events with marble syntax
 
-from([1,2,3,4], queueScheduler).pipe(
-    tap(value => console.log(`Value: ${value}`)),
-    observeOn(asyncScheduler),
-    tap(value => console.log(`Doubled value: ${value * 2}`))
-)
-.subscribe();
+let source$ = helpers.cold('-a-b-c');
 
-console.log('End Script.');
+let source$ = helpers.cold('--a-4---c-8|');
+
+let source$ = helpers.cold('  --a-4 12ms c-8#');
+
+let source$ = helpers.hot('-a-^-b-(cde)---f|');
+
+// Describing subscriptions with marble syntax
+
+let subscription = '^---!';
+
+let subscription = '--^-';
+
+let subscription = '^ 10ms !';
