@@ -1,20 +1,15 @@
 import { fromEvent, interval, Observable, of, throwError, Subject,
-         asyncScheduler, asapScheduler, queueScheduler, merge } from 'rxjs';
+         asyncScheduler, asapScheduler, queueScheduler, merge, from } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { mergeMap, filter, tap, catchError, take, takeUntil, flatMap,
-         multicast, refCount, publish, share, publishLast, publishBehavior, publishReplay } from 'rxjs/operators';
+         multicast, refCount, publish, share, publishLast, publishBehavior, publishReplay, observeOn } from 'rxjs/operators';
 
 console.log('Start Script.');
 
-let queue$ = of('QueueScheduler (synchronous)', queueScheduler);
-
-let asap$ = of('AsapScheduler (async micro task)', asapScheduler);
-
-let async$ = of('AsyncScheduler (async task)', asyncScheduler);
-
-merge(async$, asap$, queue$)
-    .subscribe(
-        value => console.log(value)
-    );
+from([1,2,3,4], queueScheduler).pipe(
+    tap(value => console.log(`Value: ${value}`)),
+    tap(value => console.log(`Doubled value: ${value * 2}`))
+)
+.subscribe();
 
 console.log('End Script.');
