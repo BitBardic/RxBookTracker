@@ -1,44 +1,20 @@
-import { fromEvent, interval, Observable, of, throwError, Subject } from 'rxjs';
+import { fromEvent, interval, Observable, of, throwError, Subject,
+         asyncScheduler, asapScheduler, queueScheduler, merge } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { mergeMap, filter, tap, catchError, take, takeUntil, flatMap,
          multicast, refCount, publish, share, publishLast, publishBehavior, publishReplay } from 'rxjs/operators';
 
-let source$ = interval(1000).pipe(
-    take(4),
-    //multicast(new Subject()),
-    //publish(),
-    // publishLast(),
-    // publishBehavior(42),
-    publishReplay(),
-    refCount()
-    // share()
-);
+console.log('Start Script.');
 
-// let subject$ = new Subject();
-// source$.subscribe(subject$);
+let queue$ = of('QueueScheduler (synchronous)', queueScheduler);
 
-source$.subscribe(
-    value => console.log(`Observer 1: ${value}`)
-);
+let asap$ = of('AsapScheduler (async micro task)', asapScheduler);
 
-setTimeout(() => {
-    source$.subscribe(
-        value => console.log(`Observer 2: ${value}`)
+let async$ = of('AsyncScheduler (async task)', asyncScheduler);
+
+merge(async$, asap$, queue$)
+    .subscribe(
+        value => console.log(value)
     );
-}, 1000);
 
-setTimeout(() => {
-    source$.subscribe(
-        value => console.log(`Observer 3: ${value}`)
-    );
-}, 2000);
-
-setTimeout(() => {
-    source$.subscribe(
-        value => console.log(`Observer 4: ${value}`)
-        null,
-        () => console.log('Observer 4 complete.')
-    );
-}, 4500);
-
-// source$.connect();
+console.log('End Script.');

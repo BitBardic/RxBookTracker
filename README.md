@@ -46,3 +46,9 @@ RxJS is a library for building asynchronous applications with observable sequenc
             - Stores and emits multiple values to all observers
             - used by publishReplay() operator
 1.  Schedulers
+    - Available schedulers in RxJS
+        1. queueScheduler (Sync Task Queue - main queue)
+        1. asyncScheduler (Async Task Queue - high priority)
+        1. asapScheduler (Async Microtask Queue - higher priority)
+        1. animationFrameScheduler
+        1. TestScheduler
